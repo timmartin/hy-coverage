@@ -13,4 +13,10 @@ basic_test:
 	coverage html
 	test -f htmlcov/basic_test_py.html
 
+# A similarly crude test for a Hy file.
+hy_test:
+	rm -rf htmlcov
+	coverage run launcher.py basic_hy_test
+	coverage html
+	test -f htmlcov/basic_hy_test_hy.html
 
