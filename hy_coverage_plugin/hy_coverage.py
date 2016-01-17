@@ -3,11 +3,6 @@ import hy.importer
 import ast
 import os.path
 
-def coverage_init(reg, options):
-    """An init callback that is called on initialisation to register the
-    classes provided by this plugin.
-    """
-    reg.add_file_tracer(HyCoveragePlugin())
 
 class HyCoveragePlugin(coverage.plugin.CoveragePlugin):
     """The main entry point for the coverage plugin. This is responsible

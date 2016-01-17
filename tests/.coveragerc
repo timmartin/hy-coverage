@@ -1,0 +1,2 @@
+[run]
+plugins = hy_coverage_plugin
