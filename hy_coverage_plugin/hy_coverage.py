@@ -11,20 +11,11 @@ class HyCoveragePlugin(coverage.plugin.CoveragePlugin):
     appropriate objects to handle coverage reporting in Hy files.
     """
 
-    # A set of files that can't be parsed using import_file_to_ast(),
-    # which we therefore ignore for coverage purposes.
-    # TODO: This fails to account for similarly-named files in user
-    # code.
-    skip = set([
-        'shadow.hy'
-    ])
-    
     def __init__(self):
         super(HyCoveragePlugin, self).__init__()
 
     def file_tracer(self, filename):
-        if filename.endswith('.hy') and \
-           (os.path.basename(filename) not in self.skip):
+        if filename.endswith('.hy'):
             return HyFileTracer(filename)
         else:
             return None
@@ -72,10 +63,19 @@ class HyFileReporter(coverage.plugin.FileReporter):
     def lines(self):
         ast = hy.importer.import_file_to_ast(
             self.filename,
-            os.path.basename(os.path.splitext(self.filename)[0]))
+            self.module_name_from_filename(self.filename))
 
         hittable_lines = set()
         line_collector = ASTLineCollector(hittable_lines)
         line_collector.visit(ast)
         return hittable_lines
-        
+
+    def module_name_from_filename(self, filename):
+        directory_name, filename = os.path.split(filename)
+        module_name = os.path.splitext(filename)[0]
+        while True:
+            if (not os.path.exists(os.path.join(directory_name, "__init__.py"))
+                and not os.path.exists(os.path.join(directory_name, "__init__.hy"))):
+                return module_name
+            directory_name, package = os.path.split(directory_name)
+            module_name = package + '.' + module_name
