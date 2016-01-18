@@ -10,7 +10,7 @@ Development Status :: 3 - Alpha
 """
 
 setup(name="hy_coverage_plugin",
-      version="0.0.2",
+      version="0.0.3",
       url="https://github.com/timmartin/hy-coverage",
       author="Tim Martin",
       author_email="tim@asymptotic.co.uk",
