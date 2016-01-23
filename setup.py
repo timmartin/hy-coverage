@@ -1,5 +1,9 @@
 from setuptools import setup
 
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
 classifiers = """\
 Environment :: Console
 Intended Audience :: Developers
@@ -10,7 +14,9 @@ Development Status :: 3 - Alpha
 """
 
 setup(name="hy_coverage_plugin",
-      version="0.0.3",
+      version="0.0.4",
+      description="coverage.py plugin for the Hy language",
+      long_description=readme(),
       url="https://github.com/timmartin/hy-coverage",
       author="Tim Martin",
       author_email="tim@asymptotic.co.uk",
